@@ -1,0 +1,237 @@
+@use "../variables" as *;
+
+.dashboard {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $space-4;
+    margin-bottom: $space-6;
+
+    @media (max-width: 1280px) { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 640px)  { grid-template-columns: 1fr; }
+  }
+
+  &__charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-4;
+    margin-bottom: $space-6;
+
+    @media (max-width: 1024px) { grid-template-columns: 1fr; }
+  }
+
+  &__lang-bar {
+    margin-bottom: $space-6;
+  }
+}
+
+// ─── Language Table ───────────────────────────────────────────────────────────
+.lang-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  &__head th {
+    text-align: left;
+    font-size: $text-xs;
+    font-weight: 600;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: $space-2 $space-3;
+    border-bottom: 1px solid $border-subtle;
+
+    &:last-child { text-align: right; }
+  }
+
+  &__row {
+    cursor: pointer;
+    transition: background $transition-fast;
+
+    &:hover { background: $bg-overlay; }
+    &--selected { background: rgba(88,166,255,0.06); }
+
+    td {
+      padding: $space-2 $space-3;
+      font-size: $text-sm;
+      border-bottom: 1px solid $border-subtle;
+      vertical-align: middle;
+
+      &:last-child { text-align: right; }
+    }
+  }
+
+  &__lang-cell {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+  }
+
+  &__lang-name { font-weight: 500; color: $text-primary; }
+  &__lang-type { color: $text-muted; font-size: $text-xs; }
+
+  &__bar-cell {
+    width: 100px;
+  }
+
+  &__pct {
+    font-family: $font-mono;
+    font-size: $text-xs;
+    color: $text-secondary;
+    min-width: 48px;
+    text-align: right;
+  }
+
+  &__count {
+    font-family: $font-mono;
+    font-size: $text-xs;
+    color: $text-muted;
+  }
+
+  &__bytes {
+    font-family: $font-mono;
+    font-size: $text-xs;
+    color: $text-muted;
+  }
+}
+
+// ─── Chart Container ─────────────────────────────────────────────────────────
+.chart-container {
+  position: relative;
+  width: 100%;
+
+  &__title {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: $space-3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__subtitle {
+    font-size: $text-xs;
+    color: $text-muted;
+  }
+
+  &--loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+}
+
+// ─── Scan Status ─────────────────────────────────────────────────────────────
+.scan-status {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $text-xs;
+  font-weight: 500;
+
+  &__dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &--done    .scan-status__dot { background: $success; }
+  &--running .scan-status__dot { background: $accent; animation: pulse 1s ease-in-out infinite; }
+  &--error   .scan-status__dot { background: $danger; }
+  &--pending .scan-status__dot { background: $text-muted; }
+
+  &--done    { color: $success; }
+  &--running { color: $accent; }
+  &--error   { color: $danger; }
+  &--pending { color: $text-muted; }
+}
+
+// ─── Comparison View ─────────────────────────────────────────────────────────
+.compare {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-6;
+    margin-bottom: $space-6;
+
+    @media (max-width: 768px) { grid-template-columns: 1fr; }
+  }
+
+  &__delta {
+    display: flex;
+    align-items: center;
+    gap: $space-1;
+    font-size: $text-xs;
+    font-family: $font-mono;
+
+    &--up   { color: $success; }
+    &--down { color: $danger; }
+    &--zero { color: $text-muted; }
+  }
+}
+
+// ─── File Browser ────────────────────────────────────────────────────────────
+.file-browser {
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    margin-bottom: $space-4;
+    flex-wrap: wrap;
+  }
+
+  &__count {
+    font-size: $text-xs;
+    color: $text-muted;
+    font-family: $font-mono;
+    margin-left: auto;
+  }
+
+  &__list {
+    border: 1px solid $border-subtle;
+    border-radius: $border-radius;
+    overflow: hidden;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-2 $space-3;
+    border-bottom: 1px solid $border-subtle;
+    font-size: $text-xs;
+    transition: background $transition-fast;
+
+    &:last-child { border-bottom: none; }
+    &:hover { background: $bg-overlay; }
+  }
+
+  &__path {
+    flex: 1;
+    font-family: $font-mono;
+    color: $text-secondary;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__ext {
+    font-family: $font-mono;
+    font-size: 10px;
+    color: $text-muted;
+    background: $bg-overlay;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  &__size {
+    font-family: $font-mono;
+    color: $text-muted;
+    flex-shrink: 0;
+    min-width: 64px;
+    text-align: right;
+  }
+}

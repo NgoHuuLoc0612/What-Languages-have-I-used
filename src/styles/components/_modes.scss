@@ -1,0 +1,339 @@
+@use "../variables" as *;
+
+// ─── GitHub Mode ──────────────────────────────────────────────────────────────
+.github-mode {
+  &__token-section {
+    margin-bottom: $space-6;
+  }
+
+  &__token-card {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-3 $space-4;
+    background: $bg-overlay;
+    border: 1px solid $border-default;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover { border-color: $border-muted; }
+    &--active {
+      border-color: $accent;
+      background: rgba(88,166,255,0.06);
+    }
+  }
+
+  &__token-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: $accent-subtle;
+    color: $accent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: $text-sm;
+    flex-shrink: 0;
+  }
+
+  &__token-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__token-name {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  &__token-meta {
+    font-size: $text-xs;
+    color: $text-muted;
+    font-family: $font-mono;
+  }
+
+  &__rate-bar {
+    width: 80px;
+    text-align: right;
+
+    &-text {
+      font-size: $text-xs;
+      font-family: $font-mono;
+      color: $text-secondary;
+    }
+  }
+
+  // Repo inputs
+  &__repo-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    margin-bottom: $space-4;
+  }
+
+  &__repo-row {
+    display: flex;
+    gap: $space-2;
+    align-items: center;
+  }
+
+  &__repo-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: $bg-elevated;
+    border: 1px solid $border-default;
+    border-top: none;
+    border-radius: 0 0 $border-radius $border-radius;
+    box-shadow: $shadow-lg;
+    z-index: $z-dropdown;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  &__suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-2 $space-3;
+    cursor: pointer;
+    transition: background $transition-fast;
+    font-size: $text-sm;
+
+    &:hover { background: $bg-overlay; }
+
+    &-icon { color: $text-muted; font-size: 16px; }
+    &-name { flex: 1; color: $text-primary; font-weight: 500; }
+    &-stars { font-size: $text-xs; color: $text-muted; font-family: $font-mono; }
+  }
+
+  // Scan progress
+  &__progress {
+    background: $bg-elevated;
+    border: 1px solid $border-default;
+    border-radius: $border-radius-lg;
+    padding: $space-5;
+    margin-bottom: $space-4;
+
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: $space-4;
+    }
+
+    &-title {
+      font-size: $text-sm;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    &-pct {
+      font-family: $font-mono;
+      font-size: $text-sm;
+      color: $accent;
+      font-weight: 700;
+    }
+
+    &-msg {
+      font-size: $text-xs;
+      color: $text-muted;
+      font-family: $font-mono;
+      margin-top: $space-3;
+      height: 16px;
+    }
+  }
+}
+
+// ─── Folder Mode ──────────────────────────────────────────────────────────────
+.folder-mode {
+  &__drop-zone {
+    border: 2px dashed $border-default;
+    border-radius: $border-radius-xl;
+    padding: $space-12 $space-8;
+    text-align: center;
+    cursor: pointer;
+    transition: all $transition-fast;
+    position: relative;
+    overflow: hidden;
+
+    &:hover,
+    &--drag-over {
+      border-color: $accent;
+      background: rgba(88, 166, 255, 0.03);
+
+      .folder-mode__drop-icon { transform: translateY(-4px); }
+    }
+
+    &--has-files {
+      border-color: $success;
+      background: rgba(63, 185, 80, 0.03);
+      padding: $space-6 $space-8;
+    }
+  }
+
+  &__drop-icon {
+    font-size: 56px;
+    margin-bottom: $space-4;
+    transition: transform $transition-normal;
+  }
+
+  &__drop-title {
+    font-size: $text-xl;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: $space-2;
+  }
+
+  &__drop-sub {
+    font-size: $text-sm;
+    color: $text-muted;
+    margin-bottom: $space-6;
+  }
+
+  &__drop-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &__file-summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-6;
+    flex-wrap: wrap;
+
+    &-stat {
+      text-align: center;
+
+      &-value {
+        font-size: $text-2xl;
+        font-weight: 700;
+        font-family: $font-mono;
+        color: $text-primary;
+      }
+
+      &-label {
+        font-size: $text-xs;
+        color: $text-muted;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+    }
+  }
+
+  // Glob patterns
+  &__patterns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-4;
+
+    @media (max-width: 768px) { grid-template-columns: 1fr; }
+  }
+
+  &__pattern-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-1;
+    margin-top: $space-2;
+    min-height: 32px;
+  }
+
+  &__pattern-input-row {
+    display: flex;
+    gap: $space-2;
+    margin-top: $space-2;
+  }
+
+  // Preview
+  &__preview {
+    background: $bg-elevated;
+    border: 1px solid $border-default;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+
+    &-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: $space-2 $space-4;
+      border-bottom: 1px solid $border-subtle;
+      font-size: $text-xs;
+
+      &:last-child { border-bottom: none; }
+    }
+
+    &-ext {
+      font-family: $font-mono;
+      color: $text-secondary;
+    }
+
+    &-count {
+      font-family: $font-mono;
+      color: $text-muted;
+    }
+  }
+}
+
+// ─── Scan Queue / History ─────────────────────────────────────────────────────
+.scan-history {
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-3 $space-4;
+    border-bottom: 1px solid $border-subtle;
+    cursor: pointer;
+    transition: background $transition-fast;
+
+    &:hover { background: $bg-overlay; }
+    &:last-child { border-bottom: none; }
+  }
+
+  &__mode-icon {
+    width: 32px; height: 32px;
+    border-radius: $border-radius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+
+    &--github { background: rgba(63,185,80,0.15);  color: $success; }
+    &--folder { background: rgba(210,153,34,0.15); color: $warning; }
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: $text-primary;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__meta {
+    font-size: $text-xs;
+    color: $text-muted;
+    font-family: $font-mono;
+    margin-top: 2px;
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+}

@@ -1,0 +1,207 @@
+@use "../variables" as *;
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - $header-height);
+  padding: $space-8;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(88,166,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  &__hero {
+    max-width: 680px;
+    margin-bottom: $space-12;
+    position: relative;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    background: rgba(88,166,255,0.1);
+    border: 1px solid rgba(88,166,255,0.2);
+    color: $accent;
+    font-size: $text-xs;
+    font-family: $font-mono;
+    padding: $space-1 $space-3;
+    border-radius: 20px;
+    margin-bottom: $space-5;
+  }
+
+  &__title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: $space-5;
+    background: linear-gradient(135deg, $text-primary 0%, rgba(230,237,243,0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    em {
+      font-style: normal;
+      background: linear-gradient(135deg, $accent, #bc8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @media (max-width: 768px) { font-size: 2.5rem; }
+  }
+
+  &__subtitle {
+    font-size: $text-lg;
+    color: $text-secondary;
+    line-height: 1.7;
+    margin-bottom: $space-8;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $space-4;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  // ── Mode cards ──────────────────────────────────────────────────────────────
+  &__modes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-5;
+    max-width: 720px;
+    width: 100%;
+
+    @media (max-width: 640px) { grid-template-columns: 1fr; }
+  }
+
+  &__mode-card {
+    background: $bg-surface;
+    border: 1px solid $border-default;
+    border-radius: $border-radius-xl;
+    padding: $space-6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--mode-color, $accent);
+      opacity: 0;
+      transition: opacity $transition-fast;
+    }
+
+    &:hover {
+      border-color: var(--mode-color, $accent);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+
+      &::before { opacity: 1; }
+    }
+
+    &--github { --mode-color: #{$success}; }
+    &--folder { --mode-color: #{$warning}; }
+  }
+
+  &__mode-icon {
+    width: 48px; height: 48px;
+    border-radius: $border-radius-lg;
+    background: rgba(var(--mode-r, 88), var(--mode-g, 166), var(--mode-b, 255), 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: $space-4;
+
+    &--github { background: rgba(63,185,80,0.15); }
+    &--folder { background: rgba(210,153,34,0.15); }
+  }
+
+  &__mode-title {
+    font-size: $text-lg;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: $space-2;
+  }
+
+  &__mode-desc {
+    font-size: $text-sm;
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: $space-4;
+  }
+
+  &__mode-features {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: $space-2;
+      font-size: $text-xs;
+      color: $text-muted;
+
+      &::before {
+        content: '✓';
+        color: $success;
+        font-weight: 700;
+        font-size: 10px;
+      }
+    }
+  }
+
+  // ── Stats strip ──────────────────────────────────────────────────────────
+  &__stats-strip {
+    display: flex;
+    gap: $space-8;
+    margin-top: $space-12;
+    padding-top: $space-8;
+    border-top: 1px solid $border-subtle;
+
+    @media (max-width: 640px) {
+      gap: $space-4;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  &__stat-item {
+    text-align: center;
+
+    &-value {
+      font-size: $text-2xl;
+      font-weight: 700;
+      font-family: $font-mono;
+      color: $text-primary;
+    }
+
+    &-label {
+      font-size: $text-xs;
+      color: $text-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+  }
+}
